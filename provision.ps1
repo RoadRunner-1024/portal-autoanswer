@@ -135,7 +135,10 @@ if ($Accessibility) {
 # ---- configure and start -------------------------------------------------------
 Write-Step "Configuring"
 $enabled = (-not $Off).ToString().ToLower()
-& $adb @ser shell am broadcast -a "$pkg.CONFIG" --ez enabled $enabled --ei delay $Delay --ez boot true | Out-Null
+# Explicit component + FLAG_INCLUDE_STOPPED_PACKAGES (0x20): Android blocks implicit
+# broadcasts to manifest receivers, and a freshly installed app is in the stopped state,
+# so an implicit broadcast is silently dropped and the defaults quietly stand.
+& $adb @ser shell am broadcast -n "$pkg/.ConfigReceiver" -a "$pkg.CONFIG" -f 0x00000020 --ez enabled $enabled --ei delay $Delay --ez boot true | Out-Null
 & $adb @ser shell am start -n "$pkg/.MainActivity" | Out-Null
 Start-Sleep -Seconds 3
 Write-Ok "auto answer = $enabled, rings for $Delay s first, starts on boot"
@@ -144,8 +147,11 @@ Write-Ok "auto answer = $enabled, rings for $Delay s first, starts on boot"
 Write-Step "Checking it is running"
 $log = (& $adb @ser logcat -d -s AutoAnswer:*) -join "`n"
 $line = ($log -split "`n" | Where-Object { $_ -match 'watching for incoming calls' } | Select-Object -Last 1)
-if ($line) {
+$applied = ($log -match "enabled=$enabled")
+if ($line -and $applied) {
     Write-Ok $line.Trim()
+} elseif ($line) {
+    Write-Note "running, but the settings did not take: $($line.Trim())"
 } else {
     Write-Note "no startup line in the log yet - open the app on the Portal and check it says Ready"
 }

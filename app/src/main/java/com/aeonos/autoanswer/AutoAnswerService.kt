@@ -77,8 +77,12 @@ class AutoAnswerService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // Restarted by the system, or nudged after a settings change.
+        // Restarted by the system, or nudged after a settings change. Re-log the state: the
+        // provisioner reads this line to confirm what it set actually took, and the onCreate one
+        // is written before any config broadcast can have arrived.
         startForeground(NOTIF_ID, buildNotification())
+        Log.i(TAG, "watching for incoming calls (enabled=${prefs.enabled}, " +
+            "delay=${prefs.delaySeconds}s, boot=${prefs.startOnBoot})")
         return START_STICKY
     }
 
