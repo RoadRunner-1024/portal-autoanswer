@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Auto Answer</string>
+    <string name="accessibility_description">Lets Auto Answer press the Answer button when a call comes in. It only ever presses Answer — never hang up — so calls can still be ended on the screen as usual.</string>
+</resources>
