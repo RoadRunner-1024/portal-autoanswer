@@ -76,7 +76,7 @@ No gradle wrapper — uses the cached Gradle 8.6, same as the other Portal proje
 
 ```powershell
 $env:JAVA_HOME='F:\Android Studio\jbr'
-C:\Users\andre\.gradle\wrapper\dists\gradle-8.6-bin\afr5mpiioh2wthjmwnkmdsd5w\gradle-8.6\bin\gradle.bat assembleDebug
+C:\Users\*****\.gradle\wrapper\dists\gradle-8.6-bin\afr5mpiioh2wthjmwnkmdsd5w\gradle-8.6\bin\gradle.bat assembleDebug
 ```
 
 `local.properties` needs `sdk.dir`; copy the one from `portal-ha-bridge` (the path escaping is
