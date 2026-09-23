@@ -36,6 +36,8 @@ The app is packaged for [OpenPortal](https://openportal.cc), which manages a Por
 from a Chromium browser — no drivers, no adb install. The catalog entry in `openportal/app.json`
 grants the permission automatically on install; auto answer is then switched on in the app.
 
+[![Get it on OpenPortal](https://openportal.cc/openportal-badge.svg)](https://openportal.cc/apps/com.aeonos.autoanswer)
+
 ## How it decides to answer
 
 - **Noticing the call:** a ringing call plays a ringtone, which shows up in Android's audio
